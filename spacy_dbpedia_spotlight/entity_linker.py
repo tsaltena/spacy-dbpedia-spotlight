@@ -108,9 +108,14 @@ class EntityLinker(object):
 
 
         # TODO: application/ld+json would be more detailed? https://github.com/digitalbazaar/pyld
-        response = requests.post(f'{endpoint}/{self.process}', headers={'accept': 'application/json'}, data=params)
-        response.raise_for_status()
-        data = response.json()
+        try:
+            response = requests.post(f'{endpoint}/{self.process}', headers={'accept': 'application/json'}, data=params)
+            response.raise_for_status()
+            data = response.json()
+        except Exception as e:
+            print('Exception in spotlight request for document;')
+            print(e)
+            return doc
         if self.debug:
             print(data)
 
